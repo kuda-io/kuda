@@ -1,0 +1,19 @@
+apiVersion: data.kuda.io/v1alpha1
+kind: DataSet
+metadata:
+  name: dataset-serving
+spec:
+  template:
+    dataItems:
+      - name: half_plus_two
+        namespace: kuda-io
+        remotePath: /kuda/models/saved_model_half_plus_two/00000123
+        localPath: /models/half_plus_two/00000123
+        version: "00000123"
+        dataSourceType: hdfs
+    dataSources:
+      hdfs:
+        addresses: ["hdfs-service.kuda-system:8020"]
+        userName: root
+  workloadSelector:
+    app: "serving"

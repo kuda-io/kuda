@@ -1,0 +1,27 @@
+apiVersion: data.kuda.io/v1alpha1
+kind: DataSet
+metadata:
+  name: dataset-nginx
+  namespace: default
+spec:
+  template:
+    dataItems:
+      - dataSourceType: hdfs
+        lifecycle:
+          postDownload:
+            exec:
+              command:
+                - /bin/bash
+                - -c
+                - cp /data/tmp/test.conf /etc/nginx/conf.d/test.conf && nginx -s reload
+        localPath: /tmp/test.conf
+        name: conf
+        namespace: kuda-io
+        remotePath: /nginx-conf/test.conf
+        version: "1628811202"
+    dataSources:
+      hdfs:
+        addresses: ["192.168.16.3:8020"]
+        userName: root
+  workloadSelector:
+    app: nginx

@@ -1,0 +1,89 @@
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - pods/exec
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+- apiGroups:
+  - data.kuda.io
+  resources:
+  - datas
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - data.kuda.io
+  resources:
+  - datas/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - data.kuda.io
+  resources:
+  - datas/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - data.kuda.io
+  resources:
+  - datasets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - data.kuda.io
+  resources:
+  - datasets/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - data.kuda.io
+  resources:
+  - datasets/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - rolebindings
+  verbs:
+  - create
+  - get
+  - list
+  - update
+  - watch

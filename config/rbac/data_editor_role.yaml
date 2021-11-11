@@ -1,0 +1,24 @@
+# permissions for end users to edit data.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: data-editor-role
+rules:
+- apiGroups:
+  - data.kuda.io
+  resources:
+  - datas
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - data.kuda.io
+  resources:
+  - datas/status
+  verbs:
+  - get

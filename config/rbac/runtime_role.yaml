@@ -1,0 +1,35 @@
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: runtime-role
+rules:
+- apiGroups:
+  - data.kuda.io
+  resources:
+  - datas
+  verbs:
+  - get
+  - list
+  - patch
+  - update
+- apiGroups:
+  - data.kuda.io
+  resources:
+  - datas/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - pods/exec
+  verbs:
+  - get
+  - list
+  - patch
+  - update
+  - create

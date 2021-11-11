@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webhook-config
+  namespace: system
+data:
+  config.yaml: |
+    runtimeImage: kuda4bigo/kuda-runtime:latest
+    hostPath: /var/lib/kuda
+    dataPathPrefix: /kuda/data
+    enableAffinity: true
+    runtimeServerPort: 8888

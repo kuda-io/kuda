@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: serving-deployment
+  labels:
+    app: serving
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: serving
+  template:
+    metadata:
+      labels:
+        app: serving
+    spec:
+      containers:
+        - name: serving
+          image: tensorflow/serving
+          ports:
+            - containerPort: 8501
+          env:
+            - name: MODEL_NAME
+              value: half_plus_two
+            - name: MODEL_BASE_PATH
+              value: /kuda/data/models

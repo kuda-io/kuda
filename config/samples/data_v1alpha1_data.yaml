@@ -1,0 +1,48 @@
+apiVersion: data.kuda.io/v1alpha1
+kind: Data
+metadata:
+  labels:
+    kuda.io/dataset: dataset-nginx
+    kuda.io/pod: nginx-deployment-79767f796-q7pdz
+  name: dataset-nginx-79767f796-q7pdz
+  namespace: default
+  ownerReferences:
+    - apiVersion: data.kuda.io/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DataSet
+      name: dataset-nginx
+      uid: c2a5034c-fb61-44f2-9199-8a23aa07bf73
+spec:
+  dataItems:
+    - dataSourceType: hdfs
+      lifecycle:
+        postDownload:
+          exec:
+            command:
+              - /bin/bash
+              - -c
+              - cp /data/tmp/test.conf /etc/nginx/conf.d/test.conf && nginx -s reload
+      localPath: /tmp/test.conf
+      name: conf
+      namespace: kuda-io
+      remotePath: /nginx-conf/test.conf
+      version: "1628811202"
+  dataSources:
+    hdfs:
+      addresses:
+        - 192.168.16.3:8020
+      userName: root
+status:
+  dataItems: 1
+  dataItemsStatus:
+    - name: conf
+      namespace: kuda-io
+      phase: waiting
+      startTime: "2021-10-29T04:20:38Z"
+      version: "1628811202"
+  downloading: 0
+  failed: 0
+  ready: 0/1
+  success: 0
+  waiting: 1

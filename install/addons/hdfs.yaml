@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hdfs-deployment
+  namespace: kuda-system
+  labels:
+    app: hdfs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hdfs
+  template:
+    metadata:
+      labels:
+        app: hdfs
+    spec:
+      containers:
+      - name: hdfs
+        image: mdouchement/hdfs
+        command: ["/bin/bash", "-c"]
+        args: ["sed -i \"1a\\\t<property>\\\n\t\t<name>dfs.datanode.hostname</name>\\\n\t\t<value>$POD_IP</value>\\\n\t</property>\" etc/hadoop/hdfs-site.xml; /opt/hadoop/etc/hadoop/hdfs-site.xml; head /opt/hadoop/etc/hadoop/hdfs-site.xml; service ssh start; start-dfs.sh; hadoop-daemon.sh start portmap; hadoop-daemon.sh start nfs3; tail -f /dev/null"]
+        ports:
+          - containerPort: 8020
+        env:
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: hdfs-service
+  namespace: kuda-system
+  labels:
+    app: hdfs
+spec:
+  ports:
+  - name: http
+    port: 8020
+    targetPort: 8020
+  selector:
+    app: hdfs

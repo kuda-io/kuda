@@ -1,0 +1,12 @@
+FROM alpine:3.13
+
+COPY ./build/webhook/webhook-init.sh /
+COPY ./build/webhook/mutatingwebhook.yaml.tmpl /
+
+RUN apk add curl && \
+    apk add openssl && \
+    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
+    chmod +x ./kubectl && \
+    mv ./kubectl /usr/local/bin
+
+ENTRYPOINT ["/webhook-init.sh"]

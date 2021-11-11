@@ -1,0 +1,420 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.6.1
+  creationTimestamp: null
+  name: datasets.data.kuda.io
+spec:
+  group: data.kuda.io
+  names:
+    kind: DataSet
+    listKind: DataSetList
+    plural: datasets
+    singular: dataset
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.dataItems
+      name: DataItems
+      type: integer
+    - jsonPath: .status.ready
+      name: Ready
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: DataSet is the Schema for the datasets API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DataSetSpec defines the desired state of DataSet
+            properties:
+              template:
+                properties:
+                  dataItems:
+                    items:
+                      properties:
+                        dataSourceType:
+                          type: string
+                        lifecycle:
+                          properties:
+                            postDownload:
+                              properties:
+                                exec:
+                                  description: ExecAction describes a "run in container"
+                                    action.
+                                  properties:
+                                    command:
+                                      description: Command is the command line to
+                                        execute inside the container, the working
+                                        directory for the command  is root ('/') in
+                                        the container's filesystem. The command is
+                                        simply exec'd, it is not run inside a shell,
+                                        so traditional shell instructions ('|', etc)
+                                        won't work. To use a shell, you need to explicitly
+                                        call out to that shell. Exit status of 0 is
+                                        treated as live/healthy and non-zero is unhealthy.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                httpGet:
+                                  description: HTTPGetAction describes an action based
+                                    on HTTP Get requests.
+                                  properties:
+                                    host:
+                                      description: Host name to connect to, defaults
+                                        to the pod IP. You probably want to set "Host"
+                                        in httpHeaders instead.
+                                      type: string
+                                    httpHeaders:
+                                      description: Custom headers to set in the request.
+                                        HTTP allows repeated headers.
+                                      items:
+                                        description: HTTPHeader describes a custom
+                                          header to be used in HTTP probes
+                                        properties:
+                                          name:
+                                            description: The header field name
+                                            type: string
+                                          value:
+                                            description: The header field value
+                                            type: string
+                                        required:
+                                        - name
+                                        - value
+                                        type: object
+                                      type: array
+                                    path:
+                                      description: Path to access on the HTTP server.
+                                      type: string
+                                    port:
+                                      anyOf:
+                                      - type: integer
+                                      - type: string
+                                      description: Name or number of the port to access
+                                        on the container. Number must be in the range
+                                        1 to 65535. Name must be an IANA_SVC_NAME.
+                                      x-kubernetes-int-or-string: true
+                                    scheme:
+                                      description: Scheme to use for connecting to
+                                        the host. Defaults to HTTP.
+                                      type: string
+                                  required:
+                                  - port
+                                  type: object
+                              type: object
+                            preDownload:
+                              properties:
+                                exec:
+                                  description: ExecAction describes a "run in container"
+                                    action.
+                                  properties:
+                                    command:
+                                      description: Command is the command line to
+                                        execute inside the container, the working
+                                        directory for the command  is root ('/') in
+                                        the container's filesystem. The command is
+                                        simply exec'd, it is not run inside a shell,
+                                        so traditional shell instructions ('|', etc)
+                                        won't work. To use a shell, you need to explicitly
+                                        call out to that shell. Exit status of 0 is
+                                        treated as live/healthy and non-zero is unhealthy.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                httpGet:
+                                  description: HTTPGetAction describes an action based
+                                    on HTTP Get requests.
+                                  properties:
+                                    host:
+                                      description: Host name to connect to, defaults
+                                        to the pod IP. You probably want to set "Host"
+                                        in httpHeaders instead.
+                                      type: string
+                                    httpHeaders:
+                                      description: Custom headers to set in the request.
+                                        HTTP allows repeated headers.
+                                      items:
+                                        description: HTTPHeader describes a custom
+                                          header to be used in HTTP probes
+                                        properties:
+                                          name:
+                                            description: The header field name
+                                            type: string
+                                          value:
+                                            description: The header field value
+                                            type: string
+                                        required:
+                                        - name
+                                        - value
+                                        type: object
+                                      type: array
+                                    path:
+                                      description: Path to access on the HTTP server.
+                                      type: string
+                                    port:
+                                      anyOf:
+                                      - type: integer
+                                      - type: string
+                                      description: Name or number of the port to access
+                                        on the container. Number must be in the range
+                                        1 to 65535. Name must be an IANA_SVC_NAME.
+                                      x-kubernetes-int-or-string: true
+                                    scheme:
+                                      description: Scheme to use for connecting to
+                                        the host. Defaults to HTTP.
+                                      type: string
+                                  required:
+                                  - port
+                                  type: object
+                              type: object
+                          type: object
+                        localPath:
+                          type: string
+                        name:
+                          type: string
+                        namespace:
+                          type: string
+                        remotePath:
+                          type: string
+                        version:
+                          type: string
+                      required:
+                      - dataSourceType
+                      - localPath
+                      - name
+                      - namespace
+                      - remotePath
+                      - version
+                      type: object
+                    type: array
+                  dataSources:
+                    properties:
+                      alluxio:
+                        properties:
+                          host:
+                            type: string
+                          port:
+                            type: integer
+                          timeout:
+                            type: integer
+                        required:
+                        - host
+                        - port
+                        type: object
+                      hdfs:
+                        properties:
+                          addresses:
+                            items:
+                              type: string
+                            type: array
+                          userName:
+                            type: string
+                        required:
+                        - addresses
+                        - userName
+                        type: object
+                    type: object
+                  lifecycle:
+                    properties:
+                      postDownload:
+                        properties:
+                          exec:
+                            description: ExecAction describes a "run in container"
+                              action.
+                            properties:
+                              command:
+                                description: Command is the command line to execute
+                                  inside the container, the working directory for
+                                  the command  is root ('/') in the container's filesystem.
+                                  The command is simply exec'd, it is not run inside
+                                  a shell, so traditional shell instructions ('|',
+                                  etc) won't work. To use a shell, you need to explicitly
+                                  call out to that shell. Exit status of 0 is treated
+                                  as live/healthy and non-zero is unhealthy.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          httpGet:
+                            description: HTTPGetAction describes an action based on
+                              HTTP Get requests.
+                            properties:
+                              host:
+                                description: Host name to connect to, defaults to
+                                  the pod IP. You probably want to set "Host" in httpHeaders
+                                  instead.
+                                type: string
+                              httpHeaders:
+                                description: Custom headers to set in the request.
+                                  HTTP allows repeated headers.
+                                items:
+                                  description: HTTPHeader describes a custom header
+                                    to be used in HTTP probes
+                                  properties:
+                                    name:
+                                      description: The header field name
+                                      type: string
+                                    value:
+                                      description: The header field value
+                                      type: string
+                                  required:
+                                  - name
+                                  - value
+                                  type: object
+                                type: array
+                              path:
+                                description: Path to access on the HTTP server.
+                                type: string
+                              port:
+                                anyOf:
+                                - type: integer
+                                - type: string
+                                description: Name or number of the port to access
+                                  on the container. Number must be in the range 1
+                                  to 65535. Name must be an IANA_SVC_NAME.
+                                x-kubernetes-int-or-string: true
+                              scheme:
+                                description: Scheme to use for connecting to the host.
+                                  Defaults to HTTP.
+                                type: string
+                            required:
+                            - port
+                            type: object
+                        type: object
+                      preDownload:
+                        properties:
+                          exec:
+                            description: ExecAction describes a "run in container"
+                              action.
+                            properties:
+                              command:
+                                description: Command is the command line to execute
+                                  inside the container, the working directory for
+                                  the command  is root ('/') in the container's filesystem.
+                                  The command is simply exec'd, it is not run inside
+                                  a shell, so traditional shell instructions ('|',
+                                  etc) won't work. To use a shell, you need to explicitly
+                                  call out to that shell. Exit status of 0 is treated
+                                  as live/healthy and non-zero is unhealthy.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          httpGet:
+                            description: HTTPGetAction describes an action based on
+                              HTTP Get requests.
+                            properties:
+                              host:
+                                description: Host name to connect to, defaults to
+                                  the pod IP. You probably want to set "Host" in httpHeaders
+                                  instead.
+                                type: string
+                              httpHeaders:
+                                description: Custom headers to set in the request.
+                                  HTTP allows repeated headers.
+                                items:
+                                  description: HTTPHeader describes a custom header
+                                    to be used in HTTP probes
+                                  properties:
+                                    name:
+                                      description: The header field name
+                                      type: string
+                                    value:
+                                      description: The header field value
+                                      type: string
+                                  required:
+                                  - name
+                                  - value
+                                  type: object
+                                type: array
+                              path:
+                                description: Path to access on the HTTP server.
+                                type: string
+                              port:
+                                anyOf:
+                                - type: integer
+                                - type: string
+                                description: Name or number of the port to access
+                                  on the container. Number must be in the range 1
+                                  to 65535. Name must be an IANA_SVC_NAME.
+                                x-kubernetes-int-or-string: true
+                              scheme:
+                                description: Scheme to use for connecting to the host.
+                                  Defaults to HTTP.
+                                type: string
+                            required:
+                            - port
+                            type: object
+                        type: object
+                    type: object
+                required:
+                - dataItems
+                - dataSources
+                type: object
+              updateStrategy:
+                description: UpdateStrategy is currently not implemented
+                properties:
+                  gray:
+                    type: integer
+                  type:
+                    type: string
+                required:
+                - gray
+                - type
+                type: object
+              workloadSelector:
+                additionalProperties:
+                  type: string
+                type: object
+            required:
+            - template
+            - workloadSelector
+            type: object
+          status:
+            description: DataSetStatus defines the observed state of DataSet
+            properties:
+              dataItems:
+                type: integer
+              ready:
+                type: string
+              replicas:
+                type: integer
+              success:
+                type: integer
+            required:
+            - dataItems
+            - ready
+            - replicas
+            - success
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

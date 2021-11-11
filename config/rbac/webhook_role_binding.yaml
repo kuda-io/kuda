@@ -1,0 +1,31 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: webhook
+  labels:
+    app: webhook
+subjects:
+- kind: ServiceAccount
+  name: webhook
+  namespace: system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: webhook
+
+---
+
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: webhook-init
+  labels:
+    app: webhook-init
+subjects:
+  - kind: ServiceAccount
+    name: webhook-init
+    namespace: system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: webhook-init

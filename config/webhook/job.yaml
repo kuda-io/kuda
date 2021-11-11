@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: webhook-init
+  namespace: system
+spec:
+  template:
+    spec:
+      containers:
+        - name: init
+          image: webhook-init:latest
+          command: ["/webhook-init.sh",  "--service", "kuda-webhook", "--namespace", "kuda-system", "--secret", "webhook-certs"]
+      restartPolicy: OnFailure
+      serviceAccountName: webhook-init

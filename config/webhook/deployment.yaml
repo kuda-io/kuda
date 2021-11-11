@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webhook
+  namespace: system
+  labels:
+    app: webhook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webhook
+  template:
+    metadata:
+      labels:
+        app: webhook
+    spec:
+      containers:
+        - name: webhook
+          image: webhook:latest
+          imagePullPolicy: Always
+          args:
+          - -port=8443
+          - -certDir=/etc/webhook/certs
+          volumeMounts:
+          - name: certs
+            mountPath: /etc/webhook/certs
+            readOnly: true
+          - name: config
+            mountPath: /etc/webhook/
+      volumes:
+      - name: certs
+        secret:
+          secretName: webhook-certs
+      - name: config
+        configMap:
+          name: webhook-config
+      serviceAccountName: webhook

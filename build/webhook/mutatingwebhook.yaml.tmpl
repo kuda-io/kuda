@@ -1,0 +1,22 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: webhook-cfg
+  labels:
+    app: webhook
+webhooks:
+- name: webhook.kuda.io
+  clientConfig:
+    service:
+      name: kuda-webhook
+      namespace: kuda-system
+      path: "/inject"
+    caBundle: ${CA_BUNDLE}
+  rules:
+  - operations: ["CREATE", "UPDATE"]
+    apiGroups: [""]
+    apiVersions: ["v1"]
+    resources: ["pods"]
+  sideEffects: None
+  admissionReviewVersions: ["v1", "v1beta1"]
+  failurePolicy: Ignore
