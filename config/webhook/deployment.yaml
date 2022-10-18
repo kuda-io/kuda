@@ -28,6 +28,18 @@ spec:
             readOnly: true
           - name: config
             mountPath: /etc/webhook/
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8081
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8081
+            initialDelaySeconds: 5
+            periodSeconds: 10
       volumes:
       - name: certs
         secret:

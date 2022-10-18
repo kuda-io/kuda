@@ -1231,7 +1231,19 @@ spec:
         - -certDir=/etc/webhook/certs
         image: kuda4bigo/webhook:latest
         imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
         name: webhook
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
         volumeMounts:
         - mountPath: /etc/webhook/certs
           name: certs
