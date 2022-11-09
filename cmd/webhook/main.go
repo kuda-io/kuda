@@ -24,6 +24,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
+	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	ctrllog "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
@@ -47,8 +48,10 @@ func main() {
 		port       int
 		certDir    string
 		webhookCfg string
+		probeAddr  string
 	)
 	flag.IntVar(&port, "port", 8443, "Port is the port that the webhook server serves at.")
+	flag.StringVar(&probeAddr, "health-probe-bind-address", ":8081", "The address the probe endpoint binds to.")
 	flag.StringVar(&certDir, "certDir", "/etc/webhook/certs", "CertDir is the directory that contains the server key and certificate.")
 	flag.StringVar(&webhookCfg, "config", "/etc/webhook/config.yaml", "Config file path for the admission webhook.")
 	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
@@ -58,9 +61,10 @@ func main() {
 
 	// setup manager
 	mgr, err := ctrl.NewManager(config.GetConfigOrDie(), manager.Options{
-		Scheme:  scheme,
-		Port:    port,
-		CertDir: certDir,
+		Scheme:                 scheme,
+		Port:                   port,
+		CertDir:                certDir,
+		HealthProbeBindAddress: probeAddr,
 	})
 	if err != nil {
 		log.Error(err, "unable to start manager")
@@ -78,6 +82,15 @@ func main() {
 	log.Info("setting up webhook server")
 	ws := mgr.GetWebhookServer()
 	ws.Register("/inject", &webhook.Admission{Handler: webhook2.NewPodInjector(config, mgr.GetClient())})
+
+	if err := mgr.AddHealthzCheck("healthz", healthz.Ping); err != nil {
+		log.Error(err, "unable to set up health check")
+		os.Exit(1)
+	}
+	if err := mgr.AddReadyzCheck("readyz", healthz.Ping); err != nil {
+		log.Error(err, "unable to set up ready check")
+		os.Exit(1)
+	}
 
 	log.Info("starting manager")
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
