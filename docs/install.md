@@ -11,7 +11,7 @@
 ### 准备
 
 * Kubernetes 集群，版本不低于1.16，支持 CRD 和 AdmissionWebhook
-* Kubectl 工具 (使用方式一)
+* Kubectl 工具
 * Git 工具 (使用方式二)
 
 ### 通过 kubectl 快速安装

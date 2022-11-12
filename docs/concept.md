@@ -94,4 +94,5 @@ status:
     * dataSourceType: 数据源类型，该类型必须在 dataSources 中存在
     * lifecycle: 支持在数据下载前和下载后添加自定义操作，包括 exec 和 httpGet 两种方式
 * dataSources: 定义不同的数据源，目前支持 hdfs 和 alluxio 两种
+    * hdfs: HDFS数据源相关的配置信息，包括 addresses 和 userName 属性
 

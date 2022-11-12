@@ -131,6 +131,8 @@ $ kubectl run debug -i --rm --quiet=true --restart=Never --image=curlimages/curl
 200
 ```
 
+更进一步，可以修改 test.conf 配置文件内容，并将修改后的文件上传到 HDFS 存储端，同时更新 dataset 资源，以验证文件更新和生效的过程。
+
 ## 清理
 
 ```shell
