@@ -1,0 +1,11 @@
+# Blocking Pull Requests that don't meet a particular coverage threshold.
+# Ref: https://docs.codecov.io/docs/commit-status
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 0%
+    patch:
+      default:
+        informational: true
