@@ -47,7 +47,7 @@ that you want to work on it. Something like "I want to work on this" is fine.
 
 ## Ask for Help
 
-The best way to reach us with a question when contributing is to ask on the original github issue.
+The best way to reach us with a question when contributing is to ask on the original github [issue](https://github.com/kuda-io/kuda/issues).
 
 
 ## Pull Request Checklist
