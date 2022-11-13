@@ -1,4 +1,10 @@
-![logo](/logo.png)
+![logo](/docs/images/logo.png)
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/kuda-io/kuda)](https://goreportcard.com/report/github.com/kuda-io/kuda)
+[![Build Status](https://github.com/kuda-io/kuda/workflows/kuda/badge.svg?event=push&branch=main)](https://github.com/kuda-io/kuda/actions?workflow=kuda)
+[![codecov](https://codecov.io/gh/kuda-io/kuda/branch/main/graph/badge.svg)](https://codecov.io/gh/kuda-io/kuda)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/kuda-io/kuda/blob/main/LICENSE)
+[![RepoSize](https://img.shields.io/github/repo-size/kuda-io/kuda.svg)](https://github.com/kuda-io/kuda)
 
 **Kuda** (**Ku**bernetes+**da**ta) 是 Kubernetes 原生的数据交付平台，为数据驱动型应用提供数据分发、滚动更新、版本管理等核心能力，实现对数据全生命周期的一站式管理。
 

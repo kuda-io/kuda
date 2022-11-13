@@ -1,4 +1,4 @@
-name: Kuda
+name: kuda
 
 on:
   push:
