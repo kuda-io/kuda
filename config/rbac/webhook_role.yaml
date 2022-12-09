@@ -55,7 +55,7 @@ rules:
   resources:
   - signers
   resourceNames:
-  - kubernetes.io/legacy-unknown
+  - kubernetes.io/kubelet-serving
   verbs:
   - approve
 - apiGroups:

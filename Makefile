@@ -139,7 +139,7 @@ docker-build-webhook: test ## Build docker image with the webhook.
 	docker build -t ${WEBHOOK_IMG} -f build/webhook/Dockerfile .
 
 docker-build-webhook-init: test ## Build docker image with the webhook-init.
-	docker buildx build -t ${WEBHOOK_INIT_IMG} --platform linux/amd64 -f build/webhook/Dockerfile.init .
+	docker build -t ${WEBHOOK_INIT_IMG} --platform linux/amd64 -f build/webhook/Dockerfile.init .
 
 docker-push: docker-push-manager docker-push-webhook docker-push-webhook-init
 
